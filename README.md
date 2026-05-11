@@ -4,25 +4,32 @@
 
 # DONE
 
-**DONE** is a minimalist, context-aware macOS productivity overlay that monitors your active application and uses local AI (via Ollama) to suggest relevant keyboard shortcuts and actions.
+**DONE** is a context-aware productivity ecosystem consisting of a minimalist macOS desktop overlay and a companion mobile remote. It monitors your active application and uses local AI (via Ollama) to suggest relevant keyboard shortcuts and actions.
 
 ## ✨ Features
 - **Real-time Monitoring**: Automatically detects active apps, browser URLs, and page titles.
-- **AI-Powered Suggestions**: Uses local LLMs (like Gemma or Qwen) to suggest context-specific actions.
-- **Accessory UI**: Runs as a sleek, non-intrusive menu bar app.
+- **Mobile Remote**: Control your Mac shortcuts directly from your phone with a zero-latency UDP link.
+- **Smart Browser Caching**: Strips URL query parameters to provide instant actions across similar web contexts (e.g., any YouTube video).
+- **Extended Keyboard Support**: Full support for F1-F12, navigation keys, and complex modifier chords.
 - **Boomerang Focus**: Executes shortcuts by temporarily focusing the target app and immediately returning to your work.
-- **High-DPI Ready**: Fully optimized for Retina displays with sharp icons and text.
+- **Automated CI/CD**: Dual-platform builds (Mac & Android) delivered via GitHub Actions.
 
-## 🚀 Installation
+## 🛠️ Technical Stack
+- **Desktop**: Python 3.14, PyQt6, pynput
+- **Mobile**: Flutter 3.41.9, Material 3
+- **AI**: Ollama (Local LLM)
 
-### **Option 1: Use the App (Recommended)**
-1. Build the application bundle (see below).
-2. Move `dist/DONE.app` to your `/Applications` folder.
-3. Grant **Accessibility** permissions in *System Settings > Privacy & Security*.
+## 🚀 Installation & Setup
+
+### **Option 1: Download the Release (Recommended)**
+1. Go to the [Releases](https://github.com/yourusername/done/releases) page.
+2. Download `DONE-desktop.zip` (for Mac) and `DONE.apk` (for Android).
+3. On Mac: Move `DONE.app` to your `/Applications` folder.
+4. On Android: Install the APK on your phone.
 
 ### **Option 2: Developer Setup**
-1. **Clone the repository** and navigate to the directory.
-2. **Set up a virtual environment**:
+1. **Clone the repository**.
+2. **Desktop**: 
    ```bash
    python3 -m venv venv
    source venv/bin/activate
