@@ -1,0 +1,4 @@
+PyQt6>=6.0.0
+ollama>=0.2.0
+pydantic>=2.0.0
+pynput

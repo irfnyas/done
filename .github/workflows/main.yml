@@ -1,0 +1,35 @@
+name: Build and Release
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.14
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install setuptools py2app
+          python3 -m pip install -r requirements.txt
+
+      - name: Build application
+        run: python3 build.py py2app
+
+      # generate auto changelog
+      - name: Create release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: dist/DONE.app
+          name: "DONE v${{ github.run_id }}"
+          tag_name: "v${{ github.run_id }}"
+          generate_release_notes: true
