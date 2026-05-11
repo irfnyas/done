@@ -11,7 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Set up Python 3.12
+      - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: 3.14
@@ -25,11 +25,17 @@ jobs:
       - name: Build application
         run: python3 build.py py2app
 
+      - name: Compress App
+        run: |
+          cd dist
+          zip -r ../DONE.zip DONE.app
+          cd ..
+
       # generate auto changelog
       - name: Create release
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@v2
         with:
-          files: dist/DONE.app
-          name: "DONE v${{ github.run_id }}"
-          tag_name: "v${{ github.run_id }}"
+          files: DONE.zip
+          name: "DONE v${{ github.run_number }}"
+          tag_name: "v${{ github.run_number }}"
           generate_release_notes: true
