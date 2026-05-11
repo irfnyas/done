@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/icon.png" width="128" height="128" />
+</p>
+
 # DONE
 
 **DONE** is a minimalist, context-aware macOS productivity overlay that monitors your active application and uses local AI (via Ollama) to suggest relevant keyboard shortcuts and actions.

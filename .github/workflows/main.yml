@@ -5,10 +5,9 @@ on:
       - main
 
 jobs:
-  build:
+  build-desktop:
+    name: Build Desktop (macOS)
     runs-on: macos-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -30,14 +29,63 @@ jobs:
       - name: Compress App
         run: |
           cd dist
-          zip -r ../DONE.zip DONE.app
+          zip -r ../DONE-desktop.zip DONE.app
           cd ..
 
-      # generate auto changelog
+      - name: Upload Desktop Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-app
+          path: DONE-desktop.zip
+
+  build-mobile:
+    name: Build Mobile (Android)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.41.9
+
+      - name: Build APK
+        run: |
+          cd app
+          flutter build apk --release
+          cp build/app/outputs/flutter-apk/app-release.apk ../DONE-mobile.apk
+
+      - name: Upload Mobile Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: mobile-app
+          path: DONE.apk
+
+  release:
+    name: Create Release
+    needs: [build-desktop, build-mobile]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v8
+        with:
+          merge-multiple: true
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          files: DONE.zip
+          files: |
+            DONE-desktop.zip
+            DONE.apk
           name: "DONE v${{ github.run_number }}"
           tag_name: "v${{ github.run_number }}"
           generate_release_notes: true
